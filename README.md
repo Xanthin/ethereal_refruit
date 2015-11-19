@@ -1,3 +1,4 @@
+# Ethereal Refruit Mod
 
 Grows back collected fruits (apple, banana, coconut, golden apple, orange) on trees over time.
 
