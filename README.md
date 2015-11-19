@@ -1,8 +1,8 @@
-# Ethereal Refruit Mod
+# Ethereal Refruit Mod [ethereal_refruit]
 
 Grows back collected fruits (apple, banana, coconut, golden apple, orange) on trees over time.
 
-Based on [refruit] by Glünggi which was modified by Xanthin to match [ethereal].
+Based on [refruit] by Glünggi which was modified by Xanthin to match [ethereal] along with some tweaks.
 
 License: WTFPL
 

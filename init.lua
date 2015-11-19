@@ -96,7 +96,8 @@ minetest.register_node("ethereal_refruit:bud_"..name, {
 		type = "fixed",
 		fixed = {-0.1875, -0.3125, -0.1875, 0.1875, 0.3125, 0.1875}
 	},
-	groups = {choppy = 2, oddly_breakable_by_hand = 3, flammable = 2, leafdecay = 3, leafdecay_drop = 1, fruit = 1},
+	groups = {snappy = 3, flammable = 2, leafdecay = 3,
+		leafdecay_drop = 1, rfruit = 1, not_in_creative_inventory = 1},
 	drop = {
 		max_items = 1,
 		items = {
@@ -127,7 +128,8 @@ minetest.register_node("ethereal_refruit:flower_"..name, {
 		type = "fixed",
 		fixed = {-0.1875, -0.3125, -0.1875, 0.1875, 0.3125, 0.1875}
 	},
-	groups = {choppy = 2, oddly_breakable_by_hand = 3, flammable = 2, leafdecay = 3, leafdecay_drop = 1},
+	groups = {snappy = 3, flammable = 2, leafdecay = 3,
+		leafdecay_drop = 1, rfruit = 1, not_in_creative_inventory = 1},
 	drop = {
 		max_items = 1,
 		items = {
@@ -145,113 +147,50 @@ minetest.register_node("ethereal_refruit:flower_"..name, {
 })
 end
 
---ABMs
+--ABM
 
--- Apple
-minetest.register_abm({
-	nodenames = {"ethereal_refruit:bud_apple"},
-	neighbors = {"default:leaves"},
-	interval = 34,
-	chance = 10,
-	action = function(pos, node)
+rfruit.grow_fruit = function (pos, node)
+
+-- tell the ABM what has to be transformed into what
+	if node.name == "ethereal_refruit:bud_apple" then
 		minetest.set_node(pos, {name = "ethereal_refruit:flower_apple"})
-	end,
-})
 
-minetest.register_abm({
-	nodenames = {"ethereal_refruit:flower_apple"},
-	neighbors = {"default:leaves"},
-	interval = 33,
-	chance = 60,
-	action = function(pos, node)
+	elseif node.name == "ethereal_refruit:flower_apple" then
 		minetest.set_node(pos, {name = "default:apple"})
-	end,
-})
 
--- Banana
-
-minetest.register_abm({
-	nodenames = {"ethereal_refruit:bud_banana"},
-	neighbors = {"ethereal:bananaleaves"},
-	interval = 37,
-	chance = 10,
-	action = function(pos, node)
+	elseif node.name == "ethereal_refruit:bud_banana" then
 		minetest.set_node(pos, {name = "ethereal_refruit:flower_banana"})
-	end,
-})
 
-minetest.register_abm({
-	nodenames = {"ethereal_refruit:flower_banana"},
-	neighbors = {"ethereal:bananaleaves"},
-	interval = 36,
-	chance = 60,
-	action = function(pos, node)
+	elseif node.name == "ethereal_refruit:flower_banana" then
 		minetest.set_node(pos, {name = "ethereal:banana"})
-	end,
-})
 
--- Orange
-
-minetest.register_abm({
-	nodenames = {"ethereal_refruit:bud_orange"},
-	neighbors = {"ethereal:orange_leaves"},
-	interval = 36,
-	chance = 10,
-	action = function(pos, node)
+	elseif node.name == "ethereal_refruit:bud_orange" then
 		minetest.set_node(pos, {name = "ethereal_refruit:flower_orange"})
-	end,
-})
 
-minetest.register_abm({
-	nodenames = {"ethereal_refruit:flower_orange"},
-	neighbors = {"ethereal:orange_leaves"},
-	interval = 35,
-	chance = 60,
-	action = function(pos, node)
+	elseif node.name == "ethereal_refruit:flower_orange" then
 		minetest.set_node(pos, {name = "ethereal:orange"})
-	end,
-})
 
--- Coconut
-
-minetest.register_abm({
-	nodenames = {"ethereal_refruit:bud_coconut"},
-	neighbors = {"ethereal:palmleaves"},
-	interval = 39,
-	chance = 10,
-	action = function(pos, node)
+	elseif node.name == "ethereal_refruit:bud_coconut" then
 		minetest.set_node(pos, {name = "ethereal_refruit:flower_coconut"})
-	end,
-})
 
-minetest.register_abm({
-	nodenames = {"ethereal_refruit:flower_coconut"},
-	neighbors = {"ethereal:palmleaves"},
-	interval = 38,
-	chance = 60,
-	action = function(pos, node)
+	elseif node.name == "ethereal_refruit:flower_coconut" then
 		minetest.set_node(pos, {name = "ethereal:coconut"})
-	end,
-})
 
--- Golden Apple
-
-minetest.register_abm({
-	nodenames = {"ethereal_refruit:bud_golden_apple"},
-	neighbors = {"ethereal:yellowleaves"},
-	interval = 40,
-	chance = 10,
-	action = function(pos, node)
+	elseif node.name == "ethereal_refruit:bud_golden_apple" then
 		minetest.set_node(pos, {name = "ethereal_refruit:flower_golden_apple"})
-	end,
-})
+
+	elseif node.name == "ethereal_refruit:flower_golden_apple" then
+		minetest.set_node(pos, {name = "ethereal:golden_apple"})
+	end
+end
 
 minetest.register_abm({
-	nodenames = {"ethereal_refruit:flower_golden_apple"},
-	neighbors = {"ethereal:yellowleaves"},
-	interval = 39,
-	chance = 60,
+	nodenames = {"group:rfruit"},
+	neighbors = {"group:leaves"},
+	interval = 90,
+	chance = 2,
+--	catch_up = false,
 	action = function(pos, node)
-		minetest.set_node(pos, {name = "ethereal:golden_apple"})
+		rfruit.grow_fruit(pos, node)
 	end,
 })
